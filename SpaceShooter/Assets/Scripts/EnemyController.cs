@@ -5,13 +5,13 @@ public class EnemyController : ObjectController {
 
 
 
-	public override void Update () {
+	public override void FixedUpdate () {
 		move ();
 	}
 	
 	public void move()
 	{
-		
+
 	}
 	public override void decreaseLife(float amount)
 	{

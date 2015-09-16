@@ -9,4 +9,9 @@ public class ChangeScene : MonoBehaviour {
 		Application.LoadLevel (noOfScene);
 		
 	}
+
+	public void Exit()
+	{
+		Application.Quit ();
+	}
 }
