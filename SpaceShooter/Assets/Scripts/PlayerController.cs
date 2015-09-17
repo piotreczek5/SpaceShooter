@@ -1,51 +1,78 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : ObjectController {
+public class PlayerController : ShipController
+{
+    [Header("Human Statistics")]
+    public float maxFuel = 100;
 
 
+    [Space(10)]
+    public Vector3 boundryPosition = new Vector3(7, 0, 8);
+    private float fuelLeft;
+    private bool isFuelOver;
+    
 
-	void fire()
-	{
-		Instantiate (this.weapon);
-	}
+    protected void Start()
+    {
+        base.Start();
+        fuelLeft = maxFuel;
+    }
 
-	// Update is called once per frame
-	public override void FixedUpdate () {
-		move ();
-	}
 
-	void OnTriggerEnter(Collider other) {
+    protected void FixedUpdate()
+    {
+        base.FixedUpdate();
 
-		if(other.tag == "Enemy")
-		{
-			Destroy(other.gameObject);
-		Destroy (this);
-		StartCoroutine(Example());
-		Application.LoadLevel (2);
-		}
-	}
+        if (!isFuelOver)                       // if fuel tank isn't empty  
+            CheckFuel();
+    }
 
-	IEnumerator Example() {
 
-		yield return new WaitForSeconds(2);
-	}
+    public void Refuel(float newFuel)
+    {
+        fuelLeft = newFuel;
+        isFuelOver = false;
+    }
 
-	public void move()
-	{
-		float moveHor = Input.GetAxis ("Horizontal");
-		float moveVer = Input.GetAxis ("Vertical");
-		
-		Vector3 movement = new Vector3 (moveHor, 0.0f, moveVer);
-		this.gameObject.velocity = movement * speed;
-	}
 
-	public override void decreaseLife(float amount)
-	{
-		this.life -= amount;
-	}
-	public override void decreaseArmour(float amount)
-	{
-		this.armour -= amount;
-	}
-}
+    protected override void Shoot()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            CameraShake.instance.Shake(0.02f, 0.1f);
+            base.Shoot();
+        }
+    }
+
+
+    protected override void AttemptMove()
+    {
+        float horizontalMove = Input.GetAxis("Horizontal");
+        float verticalMove = Input.GetAxis("Vertical");
+
+        Vector3 movement = new Vector3(horizontalMove, 0, verticalMove);
+        rigidbody.velocity = movement * moveSpeed;
+
+        rigidbody.position = new Vector3(
+            Mathf.Clamp(rigidbody.position.x, -boundryPosition.x, boundryPosition.x),
+            0,
+            Mathf.Clamp(rigidbody.position.z, 0, boundryPosition.z));
+
+        rigidbody.rotation = Quaternion.Euler(0, 0, -rigidbody.velocity.x * tiltSpeed);
+    }
+
+
+    void CheckFuel()
+    {
+        fuelLeft -= Time.deltaTime;                                   // decrease fuel
+        AttemptMove();                                                // move ship
+
+        if (fuelLeft < 0)                                             // if fuel is over 
+        {
+            rigidbody.velocity = Vector3.zero;                        // set ship's velocity set to zero
+            rigidbody.rotation = Quaternion.Euler(Vector3.zero);      // rotation set to zero
+            isFuelOver = true;
+        }
+    }
+}   // Karol Sobański, Piotr Pusz

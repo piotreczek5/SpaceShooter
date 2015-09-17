@@ -19,17 +19,17 @@ public class BackgroundController : MonoBehaviour
     void Update()
     {
         if (CheckTimeLeft(ref timeBetweenObjects, ref timeBetweenObjectsLeft))             // galaxy objects
-            CreateRandomObject(ref galaxyObjects,  galaxyObjectsSpawn, true);
+            CreateRandomObject(ref galaxyObjects, galaxyObjectsSpawn, true);
 
         if (CheckTimeLeft(ref timeBetweenAsteroids, ref timeBetweenAsteroidsLeft))         // asteroids
-            CreateRandomObject(ref asteroids,  asteroidSpawn, false);
+            CreateRandomObject(ref asteroids, asteroidSpawn, false);
 
         if (CheckTimeLeft(ref timeBetweenNebulas, ref timeBetweenNebulasLeft))             // nebulas
-            CreateRandomObject(ref nebulas,  nebulaSpawn, false);
+            CreateRandomObject(ref nebulas, nebulaSpawn, false);
     }
 
 
-    bool CheckTimeLeft(ref float maxTime, ref float timeLeft)                             
+    bool CheckTimeLeft(ref float maxTime, ref float timeLeft)
     {
         if (timeLeft > 0)                   // if time didn't elapse
         {
@@ -38,18 +38,19 @@ public class BackgroundController : MonoBehaviour
         }
 
         timeLeft = maxTime;                 // if time eplised reset timer
-        return true;            
+        return true;
     }
 
 
-    void CreateRandomObject(ref GameObject[] objects,  Vector3 position, bool isRandPosition)
+    void CreateRandomObject(ref GameObject[] objects, Vector3 position, bool isRandPosition)
     {
-        int randIndex = Random.Range(0, objects.Length);               // choose random index in array
-        GameObject randObject = objects[randIndex];                    // choose GameObject in array
+        int randIndex = Random.Range(0, objects.Length);                                                                            // choose random index in array
+        GameObject randObject = objects[randIndex];                                                                                 // choose GameObject in array
 
-        if (isRandPosition)                                             // if is nessesery to set random position
+        if (isRandPosition)                                                                                                         // if is nessesery to set random position
             position = new Vector3(Random.Range(-position.x, position.x), position.y, position.z);                                  // choose random position on X axis
 
-        GameObject newObject = Instantiate(randObject, position, randObject.transform.rotation) as GameObject;                  // create new GameObject
+        GameObject newObject = Instantiate(randObject, position, randObject.transform.rotation) as GameObject;                      // create new GameObject
+        newObject.transform.SetParent(GameMaster.instance.hierarchyGuard);                                                          // set parent to hierarchy guard
     }
 }  // Karol Sobanski
