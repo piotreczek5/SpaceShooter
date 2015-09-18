@@ -15,7 +15,7 @@ public abstract class ShipController : MonoBehaviour
     public Transform weaponSpawn;
 
     protected Rigidbody rigidbody;
-
+	public GameObject gameObject;
     private float nextShoot;                                                                            // time to next shoot
 
 

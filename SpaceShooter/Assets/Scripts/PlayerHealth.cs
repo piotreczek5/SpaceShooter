@@ -16,7 +16,7 @@ public class PlayerHealth : MonoBehaviour
     public float damageShakeDuration = 0.15f;
 
     [Header("Reset")]
-    public float changeSceneDelay = 0.5f;
+    public float changeSceneDelay = 0f;
     private int maxHealth;
     private int currentHealth;
     private bool isDead;
@@ -32,6 +32,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
+		Debug.Log (currentHealth);
         if (Input.GetKeyDown(KeyCode.Q))
             TakeDamage(30);
         if (isDamage)
@@ -44,7 +45,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         // TODO: audio
 
