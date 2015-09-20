@@ -6,8 +6,8 @@ public class PlayerHealth : MonoBehaviour
 {
     [Header("Player Health")]
 
-    public Slider healthSlider;
-    public Image damageImage;
+
+
     public float flashSpeed;
     public Color flashColor = new Color(1, 0, 0, 0.1f);        // red  color
 
@@ -17,6 +17,9 @@ public class PlayerHealth : MonoBehaviour
 
     [Header("Reset")]
     public float changeSceneDelay = 0.5f;
+
+    private Image damageImage;
+    private Slider healthSlider;
     private int maxHealth;
     private int currentHealth;
     private bool isDead;
@@ -25,7 +28,9 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
-        maxHealth = GetComponent<PlayerController>().maxHealth;          // Get max health from PlayerController
+        damageImage = GameObject.Find("DamageImage").GetComponent<Image>();              // it's necessary becouse player does't exist yet
+        healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();                 // it's necessary becouse player does't exist yet
+        maxHealth = GetComponent<PlayerController>().maxHealth;                          // Get max health from PlayerController
         currentHealth = maxHealth;
     }
 

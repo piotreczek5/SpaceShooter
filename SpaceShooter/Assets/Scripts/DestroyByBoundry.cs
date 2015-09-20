@@ -8,4 +8,4 @@ public class DestroyByBoundry : MonoBehaviour
     {
         Destroy(other.gameObject);
     }
-}
+}   // Karol Sobanski

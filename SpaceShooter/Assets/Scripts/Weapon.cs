@@ -1,27 +1,42 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Weapon : MonoBehaviour
+public abstract class Weapon : MonoBehaviour
 {
-    public LayerMask ownerLayer;             // owner - could be Enemy or Player
-    public int damage;
-    public GameObject shootEffect;           // particle
-    public GameObject destroyEffect;         // particle
+    public float timeBetweenBullets = 0.15f;                        // time between each shot
+    public Transform bulletSpawn;
+
+    protected float timeToShot;
+    protected AudioSource gunAudio;
+    protected ParticleSystem gunParticle;
+    protected Light gunLight;
 
 
 
-    void Start()
+
+    protected virtual void Update()
     {
-        GameObject effect = Instantiate(shootEffect, transform.position, transform.rotation) as GameObject;           // Create weapon shoot effect
-        effect.transform.SetParent(GameMaster.instance.player);                                                       // parent effect to player's ship
+        timeToShot += Time.deltaTime;
     }
 
 
-    void OnTriggerEnter(Collider other)
+    protected virtual void Start()
     {
-        if (other.gameObject.layer.Equals(ownerLayer)) return;                      // if I hit object that create me with the same layer return void;
+        gunParticle = bulletSpawn.GetComponent<ParticleSystem>();
+        gunAudio = bulletSpawn.GetComponent<AudioSource>();
+        gunLight = bulletSpawn.GetComponent<Light>();
 
-        Instantiate(destroyEffect, transform.position, transform.rotation);
-        Destroy(gameObject);
+        gunParticle.Stop();                                      //  prevents  particle to play on start game
+    }
+
+
+    protected void ShotEffects()
+    {
+        CameraShake.instance.Shake(0.02f, 0.1f);
+
+        gunAudio.Play();
+        gunLight.enabled = true;
+        gunParticle.Stop();
+        gunParticle.Play();
     }
 }   // Karol Sobanski

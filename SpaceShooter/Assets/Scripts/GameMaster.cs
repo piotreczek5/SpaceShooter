@@ -23,4 +23,4 @@ public class GameMaster : MonoBehaviour
         hierarchyGuard = new GameObject("HierarchyGuard").transform;
 
     }
-}
+}   // Karol Sobanski

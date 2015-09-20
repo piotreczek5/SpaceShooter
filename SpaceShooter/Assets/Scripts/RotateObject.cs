@@ -3,10 +3,13 @@ using System.Collections;
 
 public class RotateObject : MonoBehaviour
 {
-    public bool rotateOnXAxis;
+
+    public bool randomStartRotateOnXAxis;
+    public bool randomStartRotateOnYAxis;
     public float rotateSpeed = 2;
     [Tooltip("Interval rotate values in deegres")]
     public float minXRotate = 0, maxXRotate = 360;
+
 
     private float x;
     private float y;
@@ -15,13 +18,16 @@ public class RotateObject : MonoBehaviour
 
     void Start()
     {
-        if (rotateOnXAxis)
+        if (randomStartRotateOnXAxis)
             x = Random.Range(minXRotate, maxXRotate);        // random rotation X
         else
             x = transform.rotation.eulerAngles.x;
 
 
-        y = Random.Range(0, 360);                // random rotation Y
+        if (randomStartRotateOnYAxis)
+            y = Random.Range(0, 360);                        // random rotation Y
+        else
+            y = transform.rotation.eulerAngles.y;
     }
 
     void Update()

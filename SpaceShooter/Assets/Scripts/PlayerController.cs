@@ -11,7 +11,7 @@ public class PlayerController : ShipController
     public Vector3 boundryPosition = new Vector3(7, 0, 8);
     private float fuelLeft;
     private bool isFuelOver;
-    
+
 
     protected void Start()
     {
@@ -36,14 +36,14 @@ public class PlayerController : ShipController
     }
 
 
-    protected override void Shoot()
-    {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            CameraShake.instance.Shake(0.02f, 0.1f);
-            base.Shoot();
-        }
-    }
+    // protected override void Shot()
+    //{
+    //    if (Input.GetButtonDown("Fire1"))
+    //    {
+    //        CameraShake.instance.Shake(0.02f, 0.1f);
+    //        base.Shot();
+    //    }
+    // }
 
 
     protected override void AttemptMove()

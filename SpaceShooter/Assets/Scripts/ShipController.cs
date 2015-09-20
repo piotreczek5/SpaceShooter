@@ -9,25 +9,26 @@ public abstract class ShipController : MonoBehaviour
     public int maxHealth = 100;
     public float armour = 100f;
     public float moveSpeed = 5f;
-    public float fireRate = 0.2f;
     public float tiltSpeed = 5f;
     public GameObject weapon;
     public Transform weaponSpawn;
 
     protected Rigidbody rigidbody;
 
-    private float nextShoot;                                                                            // time to next shoot
+    private Weapon weaponScript;
 
 
     protected void Start()
     {
+        CreateWeapon();
+        weaponScript = weapon.GetComponent<Weapon>();                                                  // Get Reference to Weapon in gameobject weapon
         rigidbody = GetComponent<Rigidbody>();
     }
 
 
     protected void FixedUpdate()
     {
-        Shoot();                                                                                        // check if player can shoot
+     //   Shot();                                                                                        // check if player can shoot
     }
 
 
@@ -41,15 +42,18 @@ public abstract class ShipController : MonoBehaviour
     }
 
 
-    protected virtual void Shoot()
+    //protected virtual void Shot()
+    // {
+    //     weaponScript.WeaponShot(transform.position);
+    // }
+
+
+    void CreateWeapon()
     {
-        if (Time.time > nextShoot)                                                                      // check if time to next shoot is left;
-        {
-            nextShoot = Time.time + fireRate;                                                           // set new nextShoot time
-           GameObject newShoot = Instantiate(weapon, weaponSpawn.position, weaponSpawn.rotation) as GameObject;
-           newShoot.transform.SetParent(GameMaster.instance.player);
-        }
+        GameObject newWeapon = Instantiate(weapon, weaponSpawn.transform.position, weapon.transform.rotation) as GameObject;         // Create Weapon in weapon spown pint
+        newWeapon.transform.SetParent(weaponSpawn);                                                                                  // parentto spawn weapon point
     }
 
-    protected abstract void AttemptMove();                                                              // move implementation to do
-}
+
+    protected abstract void AttemptMove();                                                                                           // move implementation to do
+}   // Karol Sobanski, Piotr Pusz
