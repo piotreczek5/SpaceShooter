@@ -18,7 +18,13 @@ public class PlayerController : ShipController
         base.Start();
         fuelLeft = maxFuel;
     }
-
+	void OnTriggerEnter(Collider other)
+	{
+		if (other.tag == "Enemy") {
+			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().TakeDamage(other.GetComponent<EnemyController>().damage);
+		}
+		
+	}
 
     protected void FixedUpdate()
     {
