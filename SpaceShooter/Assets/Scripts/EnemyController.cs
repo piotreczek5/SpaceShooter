@@ -24,8 +24,11 @@ public class EnemyController : ShipController {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.tag == "Weapon") {
-			maxHealth -= GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().weapon.GetComponent<Weapon>().damage;
+		if (other.tag == "PlayerBullet") {
+			int damage = other.GetComponent<DestroyByCollision>().damage*
+				GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Weapon>().damageMultiplier;
+			Debug.Log(FindObjectOfType<Weapon>().damageMultiplier);
+			maxHealth -= damage;	
 		}
 
 	}
@@ -36,9 +39,9 @@ public class EnemyController : ShipController {
 
 	void DeathCheck()
 	{
-		if(maxHealth < 0){
+		if(maxHealth < 1){
 			GameMaster.instance.IncreaseScore(this.priceForKilling);
-			Destroy(base.gameObject);
+			Destroy(gameObject);
 		}
 	}
 

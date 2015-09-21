@@ -16,14 +16,15 @@ public class PlayerHealth : MonoBehaviour
     public float damageShakeDuration = 0.15f;
 
     [Header("Reset")]
-<<<<<<< HEAD
+
     public float changeSceneDelay = 0.5f;
+	public float deathDelay = 4;
 
     private Image damageImage;
     private Slider healthSlider;
-=======
-    public float changeSceneDelay = 0f;
->>>>>>> 88ea5e4e47392b6ef76c66fe135ffac4511aa508
+
+    
+
     private int maxHealth;
     private int currentHealth;
     private bool isDead;
@@ -32,6 +33,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
+
         damageImage = GameObject.Find("DamageImage").GetComponent<Image>();              // it's necessary becouse player does't exist yet
         healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();                 // it's necessary becouse player does't exist yet
         maxHealth = GetComponent<PlayerController>().maxHealth;                          // Get max health from PlayerController
@@ -41,7 +43,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-		Debug.Log (currentHealth);
+
         if (Input.GetKeyDown(KeyCode.Q))
             TakeDamage(30);
         if (isDamage)
@@ -63,21 +65,35 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         healthSlider.value = currentHealth;         // set the health bar's value to the current health
 
-        if (currentHealth <= 0)
-            Death();
+		if (currentHealth < 0)
+			LooseLife();
     }
 
+	void LooseLife()
+	{
+		//TODO: Animation or Particle
+		Instantiate (gameObject.GetComponent<PlayerController> ().explosionObject, transform.position, transform.rotation);
+		StartCoroutine(Death());
+	}
 
-    void Death()
-    {
-        //TODO: Animation or Particle
-        StartCoroutine(ResetScene());
-    }
+	public IEnumerator Death()
+	{
+
+		GameMaster.instance.DescreaseLifes ();
+		//yield return new WaitForSeconds(4);
+		if (GameMaster.instance.lifes < 1)
+			GameMaster.instance.GameOver ();
+		else
+			GameMaster.instance.Spawn();
+		yield return new WaitForSeconds(0);
+		Destroy (gameObject);
+
+		
+	}
+	
 
 
-    IEnumerator ResetScene()
-    {
-        yield return new WaitForSeconds(changeSceneDelay);
-        Application.LoadLevel(2);
-    }
+
+
+    
 }   // Karol Sobanski

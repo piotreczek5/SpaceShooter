@@ -11,6 +11,7 @@ public abstract class Weapon : MonoBehaviour
     protected ParticleSystem gunParticle;
     protected Light gunLight;
 
+	public int damageMultiplier = 1;
 
 
 
