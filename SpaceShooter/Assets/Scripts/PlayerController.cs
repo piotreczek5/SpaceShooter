@@ -18,18 +18,10 @@ public class PlayerController : ShipController
         base.Start();
         fuelLeft = maxFuel;
     }
-	void OnTriggerEnter(Collider other)
-	{
-		if (other.tag == "Enemy") {
-			GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>().TakeDamage(other.GetComponent<EnemyController>().damage);
-		}
-		
-	}
+
 
     protected void FixedUpdate()
     {
-        base.FixedUpdate();
-
         if (!isFuelOver)                       // if fuel tank isn't empty  
             CheckFuel();
     }
@@ -40,16 +32,6 @@ public class PlayerController : ShipController
         fuelLeft = newFuel;
         isFuelOver = false;
     }
-
-
-    // protected override void Shot()
-    //{
-    //    if (Input.GetButtonDown("Fire1"))
-    //    {
-    //        CameraShake.instance.Shake(0.02f, 0.1f);
-    //        base.Shot();
-    //    }
-    // }
 
 
     protected override void AttemptMove()

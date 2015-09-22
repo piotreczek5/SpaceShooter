@@ -5,13 +5,13 @@ public class DestroyByCollision : MonoBehaviour
 {
     // zrobic liste tagow do wyboru
     public GameObject[] destroyEffects;
-
+    public AudioClip[] destroySounds;
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Background") return;                                          // if it's Background return
         if (gameObject.tag == other.tag) return;                                        // if it's the same tag return
 
-        //print(gameObject.tag + " " + other.name);
+        SoundManager.instance.RandomizeSfx(destroySounds);
         if (destroyEffects.Length > 0)                                                        // if ther is some destroyeffects attached
         {
             int randIndex = Random.Range(0, destroyEffects.Length);                               // choose random index in array
@@ -20,7 +20,7 @@ public class DestroyByCollision : MonoBehaviour
             Instantiate(randEffect, transform.position, transform.rotation);
         }
         else
-            Debug.LogError("There is no destroy effect attached to " +  gameObject.name);
+            Debug.LogError("There is no destroy effect attached to " + gameObject.name);
 
         Destroy(gameObject);
     }

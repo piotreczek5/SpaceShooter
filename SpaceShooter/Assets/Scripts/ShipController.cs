@@ -5,22 +5,20 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public abstract class ShipController : MonoBehaviour
 {
-    [Header("Player Statistics")]
+    [Header("Statistics")]
     public int maxHealth = 100;
-    public float armour = 100f;
+    //public float armour = 100f;
     public float moveSpeed = 5f;
     public float tiltSpeed = 5f;
+
+    [Header("Weapon")]
     public GameObject weapon;
     public Transform weaponSpawn;
 
     protected Rigidbody rigidbody;
-<<<<<<< HEAD
 
     private Weapon weaponScript;
-=======
-	public GameObject gameObject;
-    private float nextShoot;                                                                            // time to next shoot
->>>>>>> 88ea5e4e47392b6ef76c66fe135ffac4511aa508
+
 
 
     protected void Start()
@@ -28,12 +26,6 @@ public abstract class ShipController : MonoBehaviour
         CreateWeapon();
         weaponScript = weapon.GetComponent<Weapon>();                                                  // Get Reference to Weapon in gameobject weapon
         rigidbody = GetComponent<Rigidbody>();
-    }
-
-
-    protected void FixedUpdate()
-    {
-     //   Shot();                                                                                        // check if player can shoot
     }
 
 
@@ -45,12 +37,6 @@ public abstract class ShipController : MonoBehaviour
             rigidbody.rotation = Quaternion.Euler(0, 0, -rigidbody.velocity.x * tiltSpeed);             // tilt ship's wings
         // TODO: Mobile Wibration
     }
-
-
-    //protected virtual void Shot()
-    // {
-    //     weaponScript.WeaponShot(transform.position);
-    // }
 
 
     void CreateWeapon()

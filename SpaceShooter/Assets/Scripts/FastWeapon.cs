@@ -13,6 +13,8 @@ public class FastWeapon : Weapon
     private RaycastHit shootHit;                                    // A raycast hit to get information about what was hit
     private LineRenderer gunLine;
 
+
+
     protected override void Start()
     {
         base.Start();
@@ -32,8 +34,8 @@ public class FastWeapon : Weapon
 
             ShotEffects();
 
-            gunLine.enabled = true;
-            gunLine.SetPosition(0, transform.position);
+            gunLine.enabled = true;                       // enable the line renderer
+            gunLine.SetPosition(0, transform.position);   // set it's first position to be the end of the gun;
 
             shootRay.origin = transform.position;
             shootRay.direction = transform.forward;
@@ -42,10 +44,10 @@ public class FastWeapon : Weapon
             {
                 //TODO: enemy take damage
                 Instantiate(destroyEffect, shootHit.point, destroyEffect.transform.rotation);
-                gunLine.SetPosition(1, shootHit.point);
+                gunLine.SetPosition(1, shootHit.point);                                                // set the second position of the line renderer to the point the raycast hit
             }
             else
-                gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
+                gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);                  // set the  second position of the line renderer to the fullest extent of the gun's range
         }
 
         if (timeToShot >= timeBetweenBullets * effectDisplayTime)

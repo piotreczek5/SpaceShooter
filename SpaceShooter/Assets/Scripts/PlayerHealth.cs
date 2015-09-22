@@ -5,9 +5,6 @@ using UnityEngine.UI;
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Player Health")]
-
-
-
     public float flashSpeed;
     public Color flashColor = new Color(1, 0, 0, 0.1f);        // red  color
 
@@ -16,14 +13,10 @@ public class PlayerHealth : MonoBehaviour
     public float damageShakeDuration = 0.15f;
 
     [Header("Reset")]
-<<<<<<< HEAD
-    public float changeSceneDelay = 0.5f;
+    public float changeSceneDelay = 0f;
 
     private Image damageImage;
     private Slider healthSlider;
-=======
-    public float changeSceneDelay = 0f;
->>>>>>> 88ea5e4e47392b6ef76c66fe135ffac4511aa508
     private int maxHealth;
     private int currentHealth;
     private bool isDead;
@@ -32,8 +25,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Awake()
     {
-        damageImage = GameObject.Find("DamageImage").GetComponent<Image>();              // it's necessary becouse player does't exist yet
-        healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();                 // it's necessary becouse player does't exist yet
+        damageImage = GameObject.Find("DamageImage").GetComponent<Image>();              // it's necessary because player does't exist yet
+        healthSlider = GameObject.Find("HealthSlider").GetComponent<Slider>();           // it's necessary because player does't exist yet
         maxHealth = GetComponent<PlayerController>().maxHealth;                          // Get max health from PlayerController
         currentHealth = maxHealth;
     }
@@ -41,9 +34,6 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-		Debug.Log (currentHealth);
-        if (Input.GetKeyDown(KeyCode.Q))
-            TakeDamage(30);
         if (isDamage)
         {
             isDamage = false;                        // reset damage flag
