@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyController : ShipController
-{
+
+public class EnemyController : ShipController {
+
 
     //public 
     public float minOffsetZ = -0.4f, maxOffsetZ = -0.6f;  

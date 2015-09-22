@@ -36,7 +36,9 @@ public class PlayerController : ShipController
 
     protected override void AttemptMove()
     {
-        float horizontalMove = Input.GetAxis("Horizontal");
+		transform.Translate(Input.acceleration.x, 0, -Input.acceleration.z);
+
+		float horizontalMove = Input.GetAxis("Horizontal");
         float verticalMove = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(horizontalMove, 0, verticalMove);

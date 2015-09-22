@@ -17,8 +17,12 @@ public abstract class ShipController : MonoBehaviour
 
     protected Rigidbody rigidbody;
 
+	public GameObject explosionObject;
+
     private Weapon weaponScript;
 
+	public GameObject gameObject;
+    private float nextShoot;                                                                            // time to next shoot
 
 
     protected void Start()
