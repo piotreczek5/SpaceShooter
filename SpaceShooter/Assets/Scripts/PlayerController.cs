@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : ShipController
+public class PlayerController : ObjectController
 {
     [Header("Human Statistics")]
     public float maxFuel = 100;
@@ -9,14 +9,20 @@ public class PlayerController : ShipController
 
     [Space(10)]
     public Vector3 boundryPosition = new Vector3(7, 0, 8);
+
     private float fuelLeft;
     private bool isFuelOver;
+    ShipController shipScript;
+    Weapon weapon;
 
 
-    protected void Start()
+    protected override void Start()
     {
+        shipScript = GetComponent<ShipController>();
+        weapon = shipScript.CreateWeapon();
         base.Start();
         fuelLeft = maxFuel;
+        
     }
 
 
@@ -26,7 +32,18 @@ public class PlayerController : ShipController
             CheckFuel();
     }
 
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            weapon.Shot();
+            CameraShake.instance.Shake(0.02f, 0.1f);
+        }
+          
+    }
 
+    // Shoot z shake camera
     public void Refuel(float newFuel)
     {
         fuelLeft = newFuel;
@@ -49,7 +66,7 @@ public class PlayerController : ShipController
             0,
             Mathf.Clamp(rigidbody.position.z, 0, boundryPosition.z));
 
-        rigidbody.rotation = Quaternion.Euler(0, 0, -rigidbody.velocity.x * tiltSpeed);
+        shipScript.TiltWings();
     }
 
 

@@ -26,8 +26,8 @@ public class GameMaster : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
-		lifesText.text = "Lifes: " + lifes;
-		scoreText.text = "Score: " + score;
+		//lifesText.text = "Lifes: " + lifes;
+		//scoreText.text = "Score: " + score;
         
 		DontDestroyOnLoad(gameObject);
 		DontDestroyOnLoad(lifesText);
@@ -45,8 +45,8 @@ public class GameMaster : MonoBehaviour
 		} else if (level == 1) {
 
 			lifes = 3;
-			scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<Text>();
-			lifesText = GameObject.FindGameObjectWithTag("Life").GetComponent<Text>();
+			//scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<Text>();
+			//lifesText = GameObject.FindGameObjectWithTag("Life").GetComponent<Text>();
 			StartCoroutine (this.SpawnPlayer (0));
 
 
@@ -56,12 +56,8 @@ public class GameMaster : MonoBehaviour
 		}
 		
 	}
-	void Start()
-	{
 
-		lifesText.text = "Lifes: " + lifes;
-		scoreText.text = "Score: " + score;
-	}
+
 	public void Spawn()
 	{
 		StartCoroutine (SpawnPlayer (2));

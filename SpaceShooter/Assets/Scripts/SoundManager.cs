@@ -27,21 +27,14 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    public void RandomizeSfx(AudioClip[] clips)                                // change a little sound of efx
+    public void RandomizeSfx( ref AudioClip[] clips, ref AudioSource audioSource)                                // change a little sound of efx, and audioSource settings
     {
         int randomIndex = Random.Range(0, clips.Length);                   
         float randomPitch = Random.Range(lowPitchRange, highPitchRange);
         float randomVolume = Random.Range(lowVolumeRange, highVolumRange);
 
-        efxSource.volume = randomVolume; 
-        efxSource.pitch = randomPitch;                                              
-        PlaySingle(clips[randomIndex]);
-    }
-
-
-    public void PlaySingle(AudioClip clip)
-    {
-        efxSource.clip = clip;
-        efxSource.Play();
+        audioSource.volume = randomVolume;
+        audioSource.pitch = randomPitch;
+        audioSource.clip = clips[randomIndex];
     }
 }   // Karol Sobanski

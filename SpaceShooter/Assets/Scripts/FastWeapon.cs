@@ -23,11 +23,22 @@ public class FastWeapon : Weapon
         gunLine = GetComponent<LineRenderer>();
     }
 
-
     void Update()
     {
         base.Update();
 
+        if (timeToShot >= timeBetweenBullets * effectDisplayTime)
+            DisableEffects();
+    }
+
+    void DisableEffects()
+    {
+        gunLine.enabled = false;
+        gunLight.enabled = false;
+    }
+
+    public override void Shot()
+    {
         if (Input.GetKey(KeyCode.Mouse0) && timeToShot > timeBetweenBullets && Time.timeScale != 0)    // if player press button, time to next shot left, pause is off
         {
             timeToShot = 0f;
@@ -50,14 +61,6 @@ public class FastWeapon : Weapon
                 gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);                  // set the  second position of the line renderer to the fullest extent of the gun's range
         }
 
-        if (timeToShot >= timeBetweenBullets * effectDisplayTime)
-            DisableEffects();
-    }
 
-    
-    void DisableEffects()
-    {
-        gunLine.enabled = false;
-        gunLight.enabled = false;
     }
 }   // Karol Sobanski

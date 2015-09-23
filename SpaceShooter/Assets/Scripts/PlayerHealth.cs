@@ -59,12 +59,14 @@ public class PlayerHealth : MonoBehaviour
 			LooseLife();
     }
 
+
 	void LooseLife()
 	{
 		//TODO: Animation or Particle
-		Instantiate (gameObject.GetComponent<PlayerController> ().explosionObject, transform.position, transform.rotation);
+		//Instantiate (gameObject.GetComponent<PlayerController> ().explosionObject, transform.position, transform.rotation);
 		StartCoroutine(Death());
 	}
+
 
 	public IEnumerator Death()
 	{
