@@ -5,24 +5,21 @@ public class PlayerController : ObjectController
 {
     [Header("Human Statistics")]
     public float maxFuel = 100;
-
+    public float tiltSpeed = 5f;
 
     [Space(10)]
-    public Vector3 boundryPosition = new Vector3(7, 0, 8);
-
     private float fuelLeft;
     private bool isFuelOver;
-    ShipController shipScript;
-    Weapon weapon;
+    PlayerHealth playerHealth;
+    
 
 
     protected override void Start()
     {
-        shipScript = GetComponent<ShipController>();
-        weapon = shipScript.CreateWeapon();
         base.Start();
+
+        playerHealth = GetComponent<PlayerHealth>();
         fuelLeft = maxFuel;
-        
     }
 
 
@@ -32,15 +29,15 @@ public class PlayerController : ObjectController
             CheckFuel();
     }
 
-    
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
-            weapon.Shot();
             CameraShake.instance.Shake(0.02f, 0.1f);
+            for (int i = 0; i < visualWeapons.Length; i++)      // Shot from all weapons
+                visualWeapons[i].weaponScripts.Shot();
         }
-          
     }
 
     // Shoot z shake camera
@@ -51,29 +48,23 @@ public class PlayerController : ObjectController
     }
 
 
-    protected override void AttemptMove()
+    protected override void Move()
     {
-		transform.Translate(Input.acceleration.x, 0, -Input.acceleration.z);
+        transform.Translate(Input.acceleration.x, 0, -Input.acceleration.z);   // ?????!!
 
-		float horizontalMove = Input.GetAxis("Horizontal");
-        float verticalMove = Input.GetAxis("Vertical");
+        horizontalMove = Input.GetAxis("Horizontal");
+        verticalMove = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(horizontalMove, 0, verticalMove);
-        rigidbody.velocity = movement * moveSpeed;
-
-        rigidbody.position = new Vector3(
-            Mathf.Clamp(rigidbody.position.x, -boundryPosition.x, boundryPosition.x),
-            0,
-            Mathf.Clamp(rigidbody.position.z, 0, boundryPosition.z));
-
-        shipScript.TiltWings();
+        base.Move();
+        CheckBoundry();
+        rigidbody.rotation = Quaternion.Euler(0, 0, -rigidbody.velocity.x * tiltSpeed);
     }
 
 
     void CheckFuel()
     {
         fuelLeft -= Time.deltaTime;                                   // decrease fuel
-        AttemptMove();                                                // move ship
+        Move();                                                // move ship
 
         if (fuelLeft < 0)                                             // if fuel is over 
         {
@@ -81,5 +72,20 @@ public class PlayerController : ObjectController
             rigidbody.rotation = Quaternion.Euler(Vector3.zero);      // rotation set to zero
             isFuelOver = true;
         }
+    }
+
+
+    protected override void CheckBoundry()
+    {
+        rigidbody.position = new Vector3(
+        Mathf.Clamp(rigidbody.position.x, -boundryPosition.x, boundryPosition.x),
+        rigidbody.transform.position.y,
+        Mathf.Clamp(rigidbody.position.z, 0, boundryPosition.z));
+    }
+
+
+    public override void TakeDamage(int damage)
+    {
+        playerHealth.TakeDamage(damage);
     }
 }   // Karol Sobański, Piotr Pusz

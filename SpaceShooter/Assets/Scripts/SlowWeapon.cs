@@ -9,11 +9,11 @@ public class SlowWeapon : Weapon
     {
         if (timeToShot > timeBetweenBullets && Time.timeScale != 0)    // if player press button, time to next shot left, pause is off)
         {
-            timeToShot = 0f;                                                                               // reset time
-            Instantiate(bullet, transform.position, transform.rotation);
+            timeToShot = 0f;                                           // reset time
+            GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
+            newBullet.transform.SetParent(GameMaster.instance.hierarchyGuard);
+
             ShotEffects();
         }
     }
-
-
 }   // Karol Sobanski

@@ -26,7 +26,8 @@ public class DestroyByCollision : MonoBehaviour
             int randIndex = Random.Range(0, destroyEffects.Length);                               // choose random index in array
 
             GameObject randEffect = destroyEffects[Random.Range(0, destroyEffects.Length)];
-            Instantiate(randEffect, transform.position, transform.rotation);
+            GameObject newEffect = Instantiate(randEffect, transform.position, transform.rotation) as GameObject;
+            newEffect.transform.SetParent(GameMaster.instance.hierarchyGuard);       
         }
         else
             Debug.LogError("There is no destroy effect attached to " + gameObject.name);

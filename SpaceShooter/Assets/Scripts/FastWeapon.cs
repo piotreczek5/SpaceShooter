@@ -8,7 +8,7 @@ public class FastWeapon : Weapon
     public GameObject destroyEffect;
 
     private float effectDisplayTime = 0.2f;                         // the proportion of the timeBetweenBullets that the effects will display for
-    private int shootableMask;                                      // A layer mask so the  raycast only hits things on the shootable layer
+    //private int shootableMask;                                      // A layer mask so the  raycast only hits things on the shootable layer
     private Ray shootRay;                                           // A ray from the gun end forwards
     private RaycastHit shootHit;                                    // A raycast hit to get information about what was hit
     private LineRenderer gunLine;
@@ -19,7 +19,7 @@ public class FastWeapon : Weapon
     {
         base.Start();
 
-        shootableMask = LayerMask.GetMask("Enemy");
+       // shootableMask = LayerMask.GetMask("Enemy");
         gunLine = GetComponent<LineRenderer>();
     }
 
@@ -39,7 +39,7 @@ public class FastWeapon : Weapon
 
     public override void Shot()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && timeToShot > timeBetweenBullets && Time.timeScale != 0)    // if player press button, time to next shot left, pause is off
+        if ( timeToShot > timeBetweenBullets && Time.timeScale != 0)    // if player press button, time to next shot left, pause is off
         {
             timeToShot = 0f;
 
@@ -51,9 +51,15 @@ public class FastWeapon : Weapon
             shootRay.origin = transform.position;
             shootRay.direction = transform.forward;
 
-            if (Physics.Raycast(shootRay, out shootHit, range, shootableMask))
+            if (Physics.Raycast(shootRay, out shootHit, range))
             {
-                //TODO: enemy take damage
+                ObjectController controller = shootHit.transform.GetComponent<ObjectController>();
+
+                if (controller)
+                    controller.TakeDamage(damageMultiplier);
+                else
+                    Debug.LogError("There is no ObjectController in " + shootHit.transform.name);
+
                 Instantiate(destroyEffect, shootHit.point, destroyEffect.transform.rotation);
                 gunLine.SetPosition(1, shootHit.point);                                                // set the second position of the line renderer to the point the raycast hit
             }

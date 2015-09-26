@@ -3,6 +3,7 @@ using System.Collections;
 
 public class RocketTower : EnemyController
 {
+
     private Weapon weapon;
 
 
@@ -13,11 +14,13 @@ public class RocketTower : EnemyController
     }
 
 
-    void Update()
+    protected virtual void Update()
     {
-        weapon.Shot();
+        if (isShooting)
+            weapon.Shot();
     }
 
+    
     public override void TakeDamage(int damage)
     {
         maxHealth -= damage;
@@ -29,4 +32,4 @@ public class RocketTower : EnemyController
             Destroy(gameObject.transform.parent.gameObject);                         // We need destroy all object in this case
         }
     }
-}
+}   // Karol Sobanski

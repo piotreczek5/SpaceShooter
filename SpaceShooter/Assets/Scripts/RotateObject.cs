@@ -3,36 +3,59 @@ using System.Collections;
 
 public class RotateObject : MonoBehaviour
 {
+    [Header("Random start rotation on axis")]
+    public bool rotateOnX = true;
+    public bool rotateOnY = true;
 
-    public bool randomStartRotateOnXAxis;
-    public bool randomStartRotateOnYAxis;
-    public float rotateSpeed = 2;
+
+    [Header("Rotate settings")]
     [Tooltip("Interval rotate values in deegres")]
-    public float minXRotate = 0, maxXRotate = 360;
+    public float minXRotate = 0;
+    public float maxXRotate = 360;
 
+    [Space(5)]
+    public float minYRotate = 0;
+    public float maxYRotate = 360;
 
-    private float x;
-    private float y;
+    [Space(5)]
+    [Tooltip("UpdateRotator can change object rotation in every frame")]
+    public bool isUpdateRotatorOn = true;
+    public float rotateSpeed = 2;
 
 
 
     void Start()
     {
-        if (randomStartRotateOnXAxis)
+        float x;
+        float y;
+
+        if (rotateOnX)
             x = Random.Range(minXRotate, maxXRotate);        // random rotation X
         else
             x = transform.rotation.eulerAngles.x;
 
 
-        if (randomStartRotateOnYAxis)
-            y = Random.Range(0, 360);                        // random rotation Y
+        if (rotateOnY)
+            y = Random.Range(minYRotate, maxYRotate);                        // random rotation Y
         else
             y = transform.rotation.eulerAngles.y;
+
+
+        Vector3 startRotation = new Vector3(x, y, transform.rotation.z);
+        transform.rotation = Quaternion.Euler(startRotation);
+
+        if (isUpdateRotatorOn)
+            StartCoroutine(UpdateRotator(x, y));
     }
 
-    void Update()
+
+    IEnumerator UpdateRotator(float x, float y)
     {
-        Vector3 newRotation = new Vector3(x, y, rotateSpeed * Time.time);
-        transform.rotation = Quaternion.Euler(newRotation);
+        while (true)
+        {
+            Vector3 newRotation = new Vector3(x, y, rotateSpeed * Time.time);
+            transform.rotation = Quaternion.Euler(newRotation);
+            yield return null;
+        }
     }
 }  // Karol Sobanski

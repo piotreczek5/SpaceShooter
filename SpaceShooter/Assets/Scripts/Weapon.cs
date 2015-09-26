@@ -4,15 +4,14 @@ using System.Collections;
 public abstract class Weapon : MonoBehaviour
 {
     public float timeBetweenBullets = 0.15f;                        // time between each shot
-    public Transform bulletSpawn;
+    public Transform bulletSpawn;                                   // place where bullet will spawn in weapon
     public AudioClip[] gunAudios;
-    
-    protected float timeToShot;
-    protected ParticleSystem gunParticle;
+    public int damageMultiplier = 10;                               // PO CO ??!!!
+
+    protected float timeToShot;                                     // time to next shot
+    protected ParticleSystem gunParticle;                     
     protected Light gunLight;
 
-    public int damageMultiplier = 1;
-    
     private AudioSource audioSource;
 
 
@@ -40,7 +39,6 @@ public abstract class Weapon : MonoBehaviour
         gunParticle.Stop();
         gunParticle.Play();
     }
-
 
 
     public abstract void Shot();
