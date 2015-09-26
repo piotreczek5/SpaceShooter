@@ -22,8 +22,4 @@ public class RocketVibration : MonoBehaviour
             yield return null;
         }
     }
-
-
-
-
 }   // Karol Sobański 

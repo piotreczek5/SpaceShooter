@@ -32,9 +32,10 @@ public class SniperLaser : MonoBehaviour
         if (Physics.Raycast(shootRay, out shootHit, range))
         {
             gunLine.SetPosition(1, shootHit.point);                               // set the second position of the line renderer to the point the raycast hit
-            Instantiate(laserPoint, shootHit.point, transform.rotation);
+            GameObject newPoint = Instantiate(laserPoint, shootHit.point, transform.rotation) as GameObject;
+            newPoint.transform.SetParent(GameMaster.instance.hierarchyGuard);
         }
         else
             gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);  // set the  second position of the line renderer to the fullest extent of the gun's range
     }
-}
+}   // Karol Sobanski
